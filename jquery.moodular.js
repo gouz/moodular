@@ -47,7 +47,7 @@ jQuery(function($){
 	};
 	var $moodular = $.moodular;
 	$moodular.fn = $moodular.prototype = {
-		moodular: '2.2'
+		moodular: '2.3'
 	};
 	$moodular.fn.extend = $moodular.extend = $.extend;
 	$moodular.fn.extend({

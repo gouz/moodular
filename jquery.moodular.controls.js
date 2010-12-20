@@ -62,6 +62,17 @@ jQuery(function($){
 			});
 			$('.moodular_itemList_li:first').addClass('active');
 		},
+		tabs: function(moodular){
+			if (moodular.opts.tabs) {
+				$('a[href^=#]', moodular.opts.tabs).each(function () {
+					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($(this).attr('href')));
+					return false;
+				});
+				if (window.location.hash.length) {
+					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index(window.location.hash));
+				}
+			}
+		},
 		wheel: function(moodular){
 			moodular.e.parent().parent().bind("mousewheel", function(event, delta){
 				var dir = delta > 0 ? 'Up' : 'Down';
