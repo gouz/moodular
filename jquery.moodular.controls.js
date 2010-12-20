@@ -64,12 +64,11 @@ jQuery(function($){
 		},
 		tabs: function(moodular){
 			if (moodular.opts.tabs) {
-				$('a[href^=#]', moodular.opts.tabs).each(function () {
-					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($(this).attr('href')));
-					return false;
+				$('a', moodular.opts.tabs).bind('click', function () {
+					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($($(this).attr('href'))));
 				});
 				if (window.location.hash.length) {
-					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index(window.location.hash));
+					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($(window.location.hash)));
 				}
 			}
 		},
