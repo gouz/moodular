@@ -3,7 +3,7 @@
  * MIT (http://www.opensource.org/licenses/mit-license.php) licensed.
  * GNU GPL (http://www.gnu.org/licenses/gpl.html) licensed.
  *
- * jQuery moodular version: 2.3
+ * jQuery moodular version: 2.4
  *
  * Requires: jQuery 1.3.2+ 	// http://www.jquery.com
  * Compatible : Internet Explorer 6+, Firefox 1.5+, Safari 3+, Opera 9+, Chrome 0.9+
@@ -47,7 +47,7 @@ jQuery(function($){
 	};
 	var $moodular = $.moodular;
 	$moodular.fn = $moodular.prototype = {
-		moodular: '2.3'
+		moodular: '2.4'
 	};
 	$moodular.fn.extend = $moodular.extend = $.extend;
 	$moodular.fn.extend({
@@ -147,7 +147,7 @@ jQuery(function($){
 				var size = 0;
 				for (i = 0; i < Math.abs(this.dep); i++) {
 					var item = $('> ' + this.opts.item + ':last', this.e);
-					size += parseInt(item.css(this.vertical ? 'height' : 'width'));
+					size += parseInt(this.vertical ? item.outerHeight(true) : item.outerWidth(true));
 					$('> ' + this.opts.item + ':last', this.e).remove();
 					this.e.prepend(item);
 				}
