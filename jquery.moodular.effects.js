@@ -13,6 +13,11 @@
 
 jQuery(function($) {
 	$.extend($.fn.moodular.effects.init,{
+		align: function (moodular) {
+			$('> ' + moodular.opts.item + ' > img', moodular.e).load(function () {
+				$(this).css('margin-top', parseInt(($(this).parent().height() - $(this).height()) / 2) + "px");
+			});
+		},
 		corner: function (moodular) {
 			$.fn.corner.defaults.useNative = false;
 			$('> ' + moodular.opts.item, moodular.e).corner("10px");
@@ -32,6 +37,7 @@ jQuery(function($) {
 			});
 			moodular.opts.scroll = 1;
 			moodular.opts.move = function (c, b) {
+				c.locked = false;
 				c.e.css({
 					top: 0,
 					left: 0
@@ -55,6 +61,7 @@ jQuery(function($) {
 			});
 			moodular.opts.scroll = 1;
 			moodular.opts.move = function (c, b) {
+				c.locked = false;
 				c.e.css({
 					top: 0,
 					left: 0
