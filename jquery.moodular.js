@@ -3,7 +3,7 @@
  * MIT (http://www.opensource.org/licenses/mit-license.php) licensed.
  * GNU GPL (http://www.gnu.org/licenses/gpl.html) licensed.
  *
- * jQuery moodular version: 2.4
+ * jQuery moodular version: 2.5
  *
  * Requires: jQuery 1.3.2+ 	// http://www.jquery.com
  * Compatible : Internet Explorer 6+, Firefox 1.5+, Safari 3+, Opera 9+, Chrome 0.9+
@@ -22,6 +22,7 @@ jQuery(function($){
 	};
 	$.moodular = function(e, opts, ctrls, effects){
 		this.e = $(e);
+		this.backup = $(e).parent().html();
 		if (opts.random) {
 			var elems = this.e.children($('> ' + opts.item));
 			elems.sort(function() { return (Math.round(Math.random())-0.5); });
@@ -47,7 +48,7 @@ jQuery(function($){
 	};
 	var $moodular = $.moodular;
 	$moodular.fn = $moodular.prototype = {
-		moodular: '2.4'
+		moodular: '2.5'
 	};
 	$moodular.fn.extend = $moodular.extend = $.extend;
 	$moodular.fn.extend({
@@ -74,6 +75,7 @@ jQuery(function($){
 				}
 			});
 			this.e.css(this.vertical ? 'height' : 'width', s + 'px');
+			if (this.e.css(this.pos) == 'auto') this.e.css(this.pos, 0);
 			this.aItems = $('> ' + this.opts.item, this.e);
 			this.nbItems = this.aItems.length;
 			if (!this.opts.continuous) this.nbItems = this.nbItems * 2;
@@ -188,7 +190,7 @@ jQuery(function($){
 						}
 					}
 				}
-				if (this.e.css(this.pos) == 'auto') this.e.css(this.pos, 0);
+
 				var dest = parseInt(this.e.css(this.pos)) + (this.dep > 0 ? -1 : 1) * size;
 				if (!this.opts.continuous) {
 					if (dest > 0) dest = 0;
@@ -327,6 +329,10 @@ jQuery(function($){
 				this._animate('next');
 			}
 			return false;
+		},
+		destroy: function () {
+			this.stop();
+			this.e.unwrap().parent().html(this.backup); // barbarious
 		}
 	});
 	$.fn.moodular.defaults = {
