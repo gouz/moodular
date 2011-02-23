@@ -170,10 +170,10 @@ jQuery(function($){
 				if (this.dep > 0) {
 					for (i = 0; i < this.dep; i++) {
 						if (this.vertical) {
-							size += parseInt(this.aItems.eq(this._realpos(this.current) + i).outerHeight(true));
+							size += parseInt(this.aItems.eq(this._realpos(this.current) + i).height());
 						}
 						else {
-							size += parseInt(this.aItems.eq(this._realpos(this.current) + i).outerWidth(true));
+							size += parseInt(this.aItems.eq(this._realpos(this.current) + i).width());
 						}
 					}
 				}
@@ -182,10 +182,10 @@ jQuery(function($){
 					else {
 						for (i = 0; i < Math.abs(this.dep); i++) {
 							if (this.vertical) {
-								size += parseInt(this.aItems.eq(this._realpos(this.current) - i).outerHeight(true));
+								size += parseInt(this.aItems.eq(this._realpos(this.current) - i).height());
 							}
 							else {
-								size += parseInt(this.aItems.eq(this._realpos(this.current) - i).outerWidth(true));
+								size += parseInt(this.aItems.eq(this._realpos(this.current) - i).width());
 							}
 						}
 					}
