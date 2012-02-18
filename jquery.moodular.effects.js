@@ -144,7 +144,7 @@ jQuery(function($) {
 			$('>' + m.opts.item + '[data-position=' + m.current + ']', m.e).css('z-index', 2);
 		},
 		legend: function (m) {
-			m.opts.legendContainer.html($('.legend', $('> ' + m.opts.item, m.e).eq(0)).html()).fadeIn(m.opts.legendSpeed);
+			m.opts.legendContainer.html($('.legend', $('> ' + m.opts.item + '[data-position=' + m.current + ']', m.e)).html()).fadeIn(m.opts.legendSpeed);
 		},
 		multiple: function (m) {
 			if (m.dir == 1) {
