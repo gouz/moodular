@@ -26,7 +26,7 @@ jQuery(function($) {
 			$('>' + m.opts.item, m.e).eq(1).css('z-index', 2);
 		},
 		legend: function (m) {
-			$('#' + m.opts.legendId).html($('> ' + m.opts.item + ':first .legend', m.e).html());
+			m.opts.legendContainer.html($('> ' + m.opts.item + ':first .legend', m.e).html());
 		},
 		multiple: function (m) {
 			m.nb_move = 1;
@@ -106,7 +106,7 @@ jQuery(function($) {
 			}
 		},
 		legend: function (m) {
-			$('#' + m.opts.legendId).fadeOut(m.opts.legendSpeed);
+			m.opts.legendContainer.fadeOut(m.opts.legendSpeed);
 		},
 		multiple: function (m) {
 			if (m.dir == -1) {
@@ -144,7 +144,7 @@ jQuery(function($) {
 			$('>' + m.opts.item + '[data-position=' + m.current + ']', m.e).css('z-index', 2);
 		},
 		legend: function (m) {
-			$('#' + m.opts.legendId).html($('.legend', $('> ' + m.opts.item, m.e).eq(0)).html()).fadeIn(m.opts.legendSpeed);
+			m.opts.legendContainer.html($('.legend', $('> ' + m.opts.item, m.e).eq(0)).html()).fadeIn(m.opts.legendSpeed);
 		},
 		multiple: function (m) {
 			if (m.dir == 1) {
