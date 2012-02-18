@@ -20,10 +20,11 @@ jQuery(function($){
 			});
 		},
 		index: function(m){
-			var h = "";
+			var h = '<ul>';
 			for (var i = 0; i < m.nbItems; i++) {
 				h += '<li class="moodular_itemList_li" rel="' + i + '"><span>' + (i + 1) + '</span></li>';
 			}
+			h += '<ul>';
 			m.opts.indexElement.html(h);
 			$('.moodular_itemList_li', m.opts.indexElement).css('cursor', 'pointer').click(function(){
 				if(!m.locked && !$(this).hasClass('active')) {
@@ -98,11 +99,11 @@ jQuery(function($){
 			});
 		},
 		buttons: function (m) {
-			jQuery(m.opts.bt_prev, m.e.parent().parent()).bind('click', function () {
+			m.opts.bt_prev.bind('click', function () {
 				m.prev();
 				return false;
 			});
-			jQuery(m.opts.bt_next, m.e.parent().parent()).bind('click', function () {
+			m.opts.bt_next.bind('click', function () {
 				m.next();
 				return false;
 			});
