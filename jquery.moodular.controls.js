@@ -1,202 +1,167 @@
 /**
- * Copyright (c) 2010 Sylvain Gougouzian (sylvain@gougouzian.fr)
+ * Copyright (c) 2012 Sylvain Gougouzian (sylvain@gougouzian.fr)
  * MIT (http://www.opensource.org/licenses/mit-license.php) licensed.
  * GNU GPL (http://www.gnu.org/licenses/gpl.html) licensed.
  *
  * jQuery moodular controls by Sylvain Gougouzian http://sylvain.gougouzian.fr
- *
- * Requires: jQuery 1.3.2+ 	// http://www.jquery.com
- * 			jQuery moodular plugin
- *	 		jQuery Mouse Wheel Plugin v3.0.2 // Copyright (c) 2009 [Brandon Aaron] (http://brandonaaron.net)
- *			jQuery UI 1.7.2
- *
- * Compatible : Internet Explorer 6+, Firefox 1.5+, Safari 3+, Opera 9+, Chrome 0.9+
  */
 jQuery(function($){
-	$.extend($.fn.moodular.controls, {
-		keys: function(moodular){
+	$.extend($.fn.moodular.controls.init, {
+		keys: function(m){
 			$(document).keydown(function(event){
 				if ((event.keyCode == 39) || (event.keyCode == 40)) {
-					moodular._animate('next');
+					m.next();
+					return false;
 				}
 				if ((event.keyCode == 37) || (event.keyCode == 38)) {
-					moodular._animate('prev');
-				}
-			});
-			return false;
-		},
-		click: function(moodular){
-			for (var i = 0; i < moodular.nbItems; i++) {
-				$('> ' + moodular.opts.item, moodular.e).css('cursor', 'pointer').attr('rel', moodular._realpos(i)).click(function(){
-					moodular.locked = false;
-					moodular.moveTo($(this).attr('rel'));
+					m.prev();
 					return false;
-				});
-			}
-		},
-		stopOver: function (moodular) {
-			moodular.e.parent().bind("mouseenter", function(){
-				moodular.stop();
-			}).bind("mouseleave", function () {
-				if (!moodular.locked) { 
-					moodular.reanimate();
-				} else { 
-					moodular.locked = false;
 				}
 			});
 		},
-		index: function(moodular){
-			moodular.e.parent().parent().append('<ul class="moodular_itemList"></ul>');
+		index: function(m){
 			var h = "";
-			for (var i = 0; i < (moodular.nbItems / 2); i++) {
-				h += '<li class="moodular_itemList_li" rel="' + i + '">' + (i + 1) + '</li>';
+			for (var i = 0; i < m.nbItems; i++) {
+				h += '<li class="moodular_itemList_li" rel="' + i + '"><span>' + (i + 1) + '</span></li>';
 			}
-			$('.moodular_itemList', moodular.e.parent().parent()).html(h);
-			$('li.moodular_itemList_li', moodular.e.parent().parent()).css('cursor', 'pointer').click(function(){
-				if(!moodular.locked) {
-					moodular.moveTo($(this).attr('rel'));
-				} else { 
-					moodular.locked = false;
+			m.opts.indexElement.html(h);
+			$('.moodular_itemList_li', m.opts.indexElement).css('cursor', 'pointer').click(function(){
+				if(!m.locked && !$(this).hasClass('active')) {
+					$('.moodular_itemList_li.active', m.opts.indexElement).removeClass('active');
+					$(this).addClass('active');
+					m.moveTo(parseInt($(this).attr('rel')));
 				}
 				return false;
 			});
-			$('.moodular_itemList_li:first').addClass('active');
+			$('.moodular_itemList_li:first', m.opts.indexElement).addClass('active');
 		},
-		tabs: function(moodular){
-			if (moodular.opts.tabs) {
-				$('a', moodular.opts.tabs).bind('click', function () {
-					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($($(this).attr('href'))));
-				});
-				if (window.location.hash.length) {
-					moodular.moveTo($('> ' + moodular.opts.item, moodular.e).index($(window.location.hash)));
-				}
-			}
-		},
-		wheel: function(moodular){
-			moodular.e.parent().parent().bind("mousewheel", function(event, delta){
+		wheel: function(m){
+			m.e.parent().parent().bind("mousewheel", function(event, delta){
 				var dir = delta > 0 ? 'Up' : 'Down';
 				if (dir == 'Up') {
-					moodular.next();
+					m.next();
 				}
 				else {
-					moodular.prev();
+					m.prev();
 				}
 				return false;
 			});
 		},
-		mouseover: function(moodular){
-			moodular.opts.callbacks[moodular.opts.callbacks.length] = function(moodular){
-				if (moodular.isMouseOver) {
-					moodular._animate(mouseDirection(moodular));
-				}
-			};
-			moodular.e.parent().parent().bind("mousemove", function(evt){
-				moodular.mouseX = evt.pageX;
-				moodular.mouseY = evt.pageY;
-			});
-			moodular.e.parent().parent().bind("mouseenter", function(evt){
-				moodular.isMouseOver = true;
-				moodular.mouseX = evt.pageX;
-				moodular.mouseY = evt.pageY;
-				moodular._animate(mouseDirection(moodular));
-				return false;
-			});
-			moodular.e.parent().parent().bind("mouseleave", function(){
-				moodular.isMouseOver = false;
-				return false;
-			});
-		},
-		touch: function(moodular){
-			moodular.touchBPosX = null;
-			moodular.touchBPosY = null;
-			moodular.touchEPosX = null;
-			moodular.touchEPosY = null;
-			moodular.e.parent().bind('touchstart', function (event) {
+		touch: function(m){
+			m.touchBPosX = null;
+			m.touchBPosY = null;
+			m.touchEPosX = null;
+			m.touchEPosY = null;
+			m.e.parent().bind('touchstart', function (event) {
 				var e = event.originalEvent;
-				moodular.touchBPosX = e.targetTouches[0].pageX;
-				moodular.touchBPosY = e.targetTouches[0].pageY;
+				m.touchBPosX = e.targetTouches[0].pageX;
+				m.touchBPosY = e.targetTouches[0].pageY;
 			}).bind('touchmove', function (event) {
 				event.preventDefault();
 				var e = event.originalEvent;
-				moodular.touchEPosX = e.targetTouches[0].pageX;
-				moodular.touchEPosY = e.targetTouches[0].pageY;
+				m.touchEPosX = e.targetTouches[0].pageX;
+				m.touchEPosY = e.targetTouches[0].pageY;
 			}).bind('touchend', function(e) {
-				if (moodular.vertical) {
-					if (moodular.opts.direction == 'top') {
-						if (moodular.touchEPosY < moodular.touchBPosY)
-							moodular.next();
+				if (m.vertical) {
+					if (m.dir == 1) {
+						if (m.touchEPosY < m.touchBPosY)
+							m.next();
 						else
-							moodular.prev();
+							m.prev();
 					}
 					else {
-						if (moodular.touchEPosY > moodular.touchBPosY)
-							moodular.next();
+						if (m.touchEPosY > m.touchBPosY)
+							m.next();
 						else
-							moodular.prev();
+							m.prev();
 					}
 				}
 				else {
-					if (moodular.opts.direction == 'left') {
-						if (moodular.touchEPosX < moodular.touchBPosX)
-							moodular.next();
+					if (m.dir == 1) {
+						if (m.touchEPosX < m.touchBPosX)
+							m.next();
 						else
-							moodular.prev();
+							m.prev();
 					}
 					else {
-						if (moodular.touchEPosX > moodular.touchBPosX)
-							moodular.next();
+						if (m.touchEPosX > m.touchBPosX)
+							m.next();
 						else
-							moodular.prev();
+							m.prev();
 					}
 				}
-				moodular.touchBPosX = null;
-				moodular.touchBPosY = null;
-				moodular.touchEPosX = null;
-				moodular.touchEPosY = null;
+				m.touchBPosX = null;
+				m.touchBPosY = null;
+				m.touchEPosX = null;
+				m.touchEPosY = null;
 				return false;
 			});
 		},
-		slider: function (moodular) {
-			moodular.e.parent().parent().append('<div id="' + moodular.id + '_slider"></div>');
-			$("#" + moodular.id + "_slider", moodular.e.parent().parent()).slider({
-				range: "max",
-				min: 0,
-				max: ((moodular.nbItems) / 2) - 1,
-				value: 0,
-				stop: function(event, ui) {
-					moodular.moveTo(ui.value);
-				}
+		buttons: function (m) {
+			jQuery(m.opts.bt_prev, m.e.parent().parent()).bind('click', function () {
+				m.prev();
+				return false;
 			});
-		}
-	});
-
-	$.extend($.fn.moodular.controls.callback, {
-		index: function (moodular) {
-			$('.moodular_itemList li.active').removeClass('active');
-			$('.moodular_itemList li').eq(moodular._realpos(moodular.current)).addClass('active');
+			jQuery(m.opts.bt_next, m.e.parent().parent()).bind('click', function () {
+				m.next();
+				return false;
+			});
 		},
-		slider: function (moodular) {
-			$("#" + moodular.id + "_slider", moodular.e.parent().parent()).slider('value', moodular.current);
+		stopOver: function (m) {
+			$(m.e).bind('mouseenter', function () {
+				clearTimeout(m.timerMoving);
+				m.stop();
+			}).bind('mouseleave', function () {
+				m.timerMoving = setTimeout(function() {
+					m.start();
+				}, m.opts.dispTimeout);
+			});
+		},
+		thumbs: function (m) {
+			m.tC = m.opts.thumbsContainer.moodular({
+				effects: 'multiple',
+				api: true,
+				auto: false,
+				speed: m.opts.speed
+			});
+			m.thumbsClicked = false;
+			$('>'+m.opts.thumbsItem, m.opts.thumbsContainer).bind('click', function () {
+				if (!m.tC.locked && !$(this).hasClass('current')) {
+					m.thumbsClicked = true;
+					var t = $(this).data('position');
+						n = t - m.tC.current;
+					if (n >= m.nbItems)
+						n -= m.nbItems;
+					if (n < 0)
+						n += m.nbItems;
+					m.tC.nb_move = n;
+					m.moveTo(t);
+					m.tC.next();
+				}
+				return false;
+			}).css('cursor', 'pointer');
 		}
 	});
 
-	function mouseDirection(moodular){
-		var offset = moodular.e.parent().parent().offset();
-		if (moodular.vertical) {
-			if ((moodular.mouseY >= parseInt(offset.top)) && (moodular.mouseY <= parseInt((parseInt(offset.top) + parseInt(moodular.e.parent().parent().height())) / 2))) {
-				return 'prev';
-			}
-			else {
-				return 'next';
-			}
-		}	
-		else {
-			if ((moodular.mouseX >= parseInt(offset.left)) && (moodular.mouseX <= parseInt((parseInt(offset.left) + parseInt(moodular.e.parent().parent().width())) / 2))) {
-				return 'prev';
-			}
-			else {
-				return 'next';
+	$.extend($.fn.moodular.controls.before, {
+		index: function (m) {
+			$('.moodular_itemList_li.active', m.e.parent().parent()).removeClass('active');
+			$('.moodular_itemList_li', m.e.parent().parent()).eq(m.current).addClass('active');
+		},
+		thumbs: function (m) {
+			if (!m.thumbsClicked) {
+				if (m.dir == 1)
+					m.tC.next();
+				else
+					m.tC.prev();
 			}
 		}
-	}
+	});
+
+	$.extend($.fn.moodular.controls.after, {
+		thumbs: function (m) {
+			m.thumbsClicked = false;
+		}
+	});
+	
 });
