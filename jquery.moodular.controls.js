@@ -30,7 +30,7 @@ jQuery(function($){
 				if(!m.locked && !$(this).hasClass('active')) {
 					$('.moodular_itemList_li.active', m.opts.indexElement).removeClass('active');
 					$(this).addClass('active');
-					m.moveTo(parseInt($(this).attr('rel')));
+					m.moveTo(parseInt($(this).attr('rel'),10));
 				}
 				return false;
 			});
