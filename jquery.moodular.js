@@ -5,7 +5,7 @@
  */
 jQuery(function($) {
 	$.fn.moodular = function(options) {
-		var el = new Array();
+		var el = [];
 		var opts = $.extend( {}, $.fn.moodular.defaults, options);
 		var ctrls = $.extend( {}, $.fn.moodular.controls);
 		var effects = $.extend( {}, $.fn.moodular.effects);
@@ -32,7 +32,7 @@ jQuery(function($) {
 		this.current = 0;
 		this.dir = 1;
 		this.locked = false;
-		this.temp = new Array();
+		this.temp = [];
 		this.timerMoving = null;
 		this.opts = opts;
 		this.controls = ctrls;
@@ -63,7 +63,7 @@ jQuery(function($) {
 			this.control = this.opts.controls.split(' ');
 			this.effect = this.opts.effects.split(' ');
 			this._resize();
-			if (this.opts.percentSize != 0) {
+			if (this.opts.percentSize !== 0) {
 				$(window).bind('resize', function() {
 					self._resizePercent();
 				});
@@ -156,12 +156,12 @@ jQuery(function($) {
 			return false;
 		},
 		next : function() {
-			this.moveTo(parseInt(this.current) + 1);
+			this.moveTo(parseInt(this.current,10) + 1);
 			return false;
 		},
 		prev : function() {
 			this.dir = -1;
-			this.moveTo(parseInt(this.current) - 1);
+			this.moveTo(parseInt(this.current,10) - 1);
 			return false;
 		},
 		moveTo : function(n) {
@@ -224,7 +224,7 @@ jQuery(function($) {
 		},
 		resize : {
 			left: function (m) {
-				m.size = parseInt(m.e.parent().width());
+				m.size = parseInt(m.e.parent().width(),10);
 				m.e.width(2 * m.size + 'px');
 				$('> ' + m.opts.item, m.e).width(m.size);
 			}
