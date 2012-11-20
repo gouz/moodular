@@ -141,6 +141,20 @@ jQuery(function($){
 				}
 				return false;
 			}).css('cursor', 'pointer');
+		},
+		extern: function(m){
+			$('li', m.opts.indexElement).each(function (i) {
+				$(this).addClass('moodular_itemList_li');
+				$(this).attr("rel",i);
+			}).click(function(){
+				if(!m.locked && !$(this).hasClass('active')) {
+					$('.moodular_itemList_li.active', m.opts.indexElement).removeClass('active');
+					$(this).addClass('active');
+					m.moveTo(parseInt($(this).attr('rel'),10));
+				}
+				return false;
+			});
+			$('.moodular_itemList_li:first', m.opts.indexElement).addClass('active');
 		}
 	});
 
@@ -156,6 +170,10 @@ jQuery(function($){
 				else
 					m.tC.prev();
 			}
+		},
+		extern: function (m) {
+			$('.moodular_itemList_li.active', m.opts.indexElement).removeClass('active');
+			$('.moodular_itemList_li', m.opts.indexElement).eq(m.current).addClass('active');
 		}
 	});
 
