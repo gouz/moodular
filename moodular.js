@@ -2,8 +2,7 @@
  * Copyright (c) 2013 Sylvain "GouZ" Gougouzian (sylvain@gougouzian.fr) 
  * MIT (http://www.opensource.org/licenses/mit-license.php) licensed.
  * GNU GPL (http://www.gnu.org/licenses/gpl.html) licensed.
- */
- ! function($) {
+ */! function($) {
 	var Moodular = function(content, opts, ctrls, fxs) {
 		this.opts = opts;
 		this.ctrls = ctrls;
@@ -68,7 +67,7 @@
 			this.$element.trigger('moodular.next');
 		}
 	};
-	$.fn.moodular = function(option) {
+	$.fn.moodular = function(option, param) {
 		return this.each(function() {
 			var $this = $(this), 
 				data = $this.data('moodular'), 
@@ -78,7 +77,7 @@
 			if (!data)
 				$this.data('moodular', ( data = new Moodular(this, opts, ctrls, fxs)));
 			if ( typeof option == 'string')
-				data[option]();
+				data[option](param);
 		})
 	};
 	$.fn.moodular.defaults = {
