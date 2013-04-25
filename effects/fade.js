@@ -4,6 +4,8 @@
    opacity: 0,
    'z-index': 1
   });
+  if (typeof m.opts.view === "undefined")
+   m.opts.view = 1;
   for (var i = 0; i < m.opts.view; i++)
    m.items.eq(i).css({
     opacity: 1,
