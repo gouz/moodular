@@ -57,7 +57,7 @@
     }, this.opts.timer);
   },
   stop : function() {
-   clearInterval(this.timer);
+   clearTimeout(this.timer);
   },
   moveTo: function (to) {
    var n = to % this.nbItems;
