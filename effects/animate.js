@@ -4,6 +4,7 @@
    var n = $("[data-mood]", m.items.eq(k));
    n.css("margin", 0).each(function () {
     var $t = $(this), b = $t.data("mood-animation"), ml, mt;
+    $t.data("mood-ghost").css("opacity", 0);
     if (b.effects.indexOf("left") >= 0)
      ml = "100%";
     if (b.effects.indexOf("right") >= 0)
@@ -27,7 +28,7 @@
       opacity: 1
      }, m.opts.speed * b.speed, b.easing, function () {
       $t.hide();
-      $t.data("mood-ghost").css("visibility", "visible");
+      $t.data("mood-ghost").css("visibility", "visible").css("opacity", 1);;
      });
     }, b.delay));
    })
