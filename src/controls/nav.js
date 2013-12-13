@@ -46,7 +46,7 @@
 				mouseenter : function() {
 					n._current = n.current;
 					n.stop();
-					$('>li', m.opts.navWrapper).removeClass('active');
+					$('>' + m.opts.navSelector, m.opts.navWrapper).removeClass('active');
 					$(this).addClass('active');
 					m.next = $(this).data('index');
 					var _speed = m.opts.speed;
