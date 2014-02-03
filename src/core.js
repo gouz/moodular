@@ -61,9 +61,10 @@
 				}, that.opts.speed);
 			});
 			this.items.eq(0).addClass('active');
-			this.timer = setTimeout(function () {
-				that.start();
-			}, this.opts.timer);
+			if (this.opts.timer)
+				this.timer = setTimeout(function () {
+					that.start();
+				}, this.opts.timer);
 		},
 		start : function() {
 			this.$element.trigger('moodular.next');
