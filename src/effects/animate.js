@@ -12,14 +12,16 @@
 				n.css("margin", 0).each(function() {
 					var $t = $(this), b = $t.data("mood-animation"), ml, mt;
 					$t.data("mood-ghost").css("opacity", 0);
+					if (typeof b.distance == 'undefined')
+						b.distance = '100%';
 					if (b.effects.indexOf("left") >= 0)
-						ml = "100%";
+						ml = b.distance;
 					if (b.effects.indexOf("right") >= 0)
-						ml = "-100%";
+						ml = "-" + b.distance;
 					if (b.effects.indexOf("top") >= 0)
-						mt = "100%";
+						mt = b.distance;
 					if (b.effects.indexOf("bottom") >= 0)
-						mt = "-100%";
+						mt = "-" + b.distance;
 					var p = $t.data("mood-ghost").position();
 					$t.stop().show().css({
 						left : p.left,
