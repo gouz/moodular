@@ -1,13 +1,13 @@
 /**
  * Moodular - Carousel Framework
- * Copyright (c) 2013 Sylvain "GouZ" Gougouzian (sylvain@gougouzian.fr)
+ * Copyright (c) 2014 Sylvain "GouZ" Gougouzian (sylvain@gougouzian.fr)
  * MIT (http://www.opensource.org/licenses/mit-license.php) licensed.
  * GNU GPL (http://www.gnu.org/licenses/gpl.html) licensed.
  */
 !function($) {
 	'use strict';
 	var Moodular = function(content, opts, ctrls, fxs) {
-		this.version = '4.2';
+		this.version = '4.3';
 		this.opts = opts;
 		this.ctrls = ctrls;
 		this.fxs = fxs;
