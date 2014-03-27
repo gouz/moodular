@@ -7,7 +7,7 @@
 !function($) {
 	'use strict';
 	var Moodular = function(content, opts, ctrls, fxs) {
-		this.version = '4.3';
+		this.version = '4.4';
 		this.opts = opts;
 		this.ctrls = ctrls;
 		this.fxs = fxs;
