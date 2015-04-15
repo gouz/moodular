@@ -20,9 +20,9 @@
 				},
 				touchend : function() {
 					if (touchb > touche)
-						m.$e.trigger('moodular.next');
+						m.$element.trigger('moodular.next');
 					else if (touchb < touche)
-						m.$e.trigger('moodular.prev');
+						m.$element.trigger('moodular.prev');
 					touchb = null;
 					touche = null;
 					return false;
